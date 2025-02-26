@@ -1,3 +1,5 @@
+import addTasks from "./addTasks.js";
+import app, { database } from "./firebaseConfig.js";
 import { openModal, closeModal } from "./modal.js";
 
 //Selecting elements from html
@@ -23,4 +25,15 @@ const formSubmissionFeedback = document.querySelector(
 document.addEventListener("DOMContentLoaded", () => {
   openModal(formModal, openModalButton);
   closeModal(formModal, closeModalButton);
+});
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  addTasks(
+    titleInput.value,
+    dateInput.value,
+    timeInput.value,
+    categorySelect.value,
+    prioritySelect.value
+  );
 });
