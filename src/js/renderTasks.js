@@ -1,6 +1,7 @@
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { database } from "./firebaseConfig";
 import toggleCompletion from "./toggleTaskCompletion";
+import { closeDeleteModal, openDeleteModal } from "./modal";
 
 const renderTasks = async (tasks = "all") => {
   const tableBody = document.querySelector(".table__body");
@@ -80,6 +81,9 @@ const renderTasks = async (tasks = "all") => {
       toggleCompletion(doc.id, task.isCompleted);
 
       tableRow.classList.toggle("task--completed");
+    });
+    deleteTaskButton.addEventListener("click", () => {
+      openDeleteModal(doc.id, task.title);
     });
   });
 };
