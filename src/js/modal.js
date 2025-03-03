@@ -24,17 +24,25 @@ const closeModal = (formModal, closeModalButton) => {
   });
 };
 
+let previousConfirmDeleteHandler = null;
+
 const openDeleteModal = (id, taskTitle) => {
   deleteModal.classList.add("delete-modal--display");
   deleteModalText.textContent = `Are you sure you want to delete ${taskTitle}?`;
-  console.log("from openDeleteModal");
 
   const confirmDeleteHandler = async () => {
     await deleteTask(id);
     deleteModal.classList.remove("delete-modal--display");
-    confirmDeleteButton.addEventListener("click", confirmDeleteHandler);
-    console.log("from confirmDeleteHandler");
   };
+
+  if (previousConfirmDeleteHandler) {
+    confirmDeleteButton.removeEventListener(
+      "click",
+      previousConfirmDeleteHandler
+    );
+  }
+  confirmDeleteButton.addEventListener("click", confirmDeleteHandler);
+  previousConfirmDeleteHandler = confirmDeleteHandler;
 };
 
 const closeDeleteModal = () => {

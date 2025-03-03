@@ -61,7 +61,6 @@ const renderTasks = async (tasks = "all") => {
     editTaskButton.innerHTML = "<i class='fa-solid fa-pen-to-square'></i>";
 
     // Add class names
-    task.isCompleted && tableRow.classList.add("task--completed");
 
     tableRow.classList.add("table__body-row");
     taskNumber.classList.add("table__body-number");
@@ -76,11 +75,12 @@ const renderTasks = async (tasks = "all") => {
     deleteTaskButton.classList.add("tools__button");
     editTaskButton.classList.add("tools__button");
 
+    if (task.isCompleted) {
+      tableRow.classList.add("task--completed");
+    }
     // Add eventlisteners
     completeTaskButton.addEventListener("click", () => {
-      toggleCompletion(doc.id, task.isCompleted);
-
-      tableRow.classList.toggle("task--completed");
+      toggleCompletion(doc.id, tableRow);
     });
     deleteTaskButton.addEventListener("click", () => {
       openDeleteModal(doc.id, task.title);
