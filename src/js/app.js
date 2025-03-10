@@ -44,7 +44,7 @@ form.addEventListener("submit", (e) => {
       "Please fill in the form before submitting it";
     setTimeout(() => {
       formSubmissionFeedback.textContent = "";
-    }, 3000);
+    }, 1000);
     return;
   }
   if (!appState.editState) {
@@ -67,12 +67,10 @@ form.addEventListener("submit", (e) => {
   formSubmissionFeedback.textContent = "Task added";
   setTimeout(() => {
     formSubmissionFeedback.textContent = "";
-  }, 3000);
+  }, 1000);
 });
 
 filterSelect.addEventListener("change", (e) => {
   const selectedValue = e.target.value;
   filterTasksByMonth(selectedValue);
 });
-
-console.log(validateForm());

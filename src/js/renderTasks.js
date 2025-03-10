@@ -3,8 +3,10 @@ import { database } from "./firebaseConfig";
 import toggleCompletion from "./toggleTaskCompletion";
 import { closeDeleteModal, openDeleteModal, openEditModal } from "./modal";
 import { populateEditForm } from "./editTasks";
+import { hideSpinner, showSpinner } from "./spinner";
 
 const renderTasks = async (tasks = "all") => {
+  showSpinner();
   const tableBody = document.querySelector(".table__body");
   tableBody.innerHTML = "";
 
@@ -105,6 +107,7 @@ const renderTasks = async (tasks = "all") => {
       populateEditForm(doc.id);
     });
   });
+  hideSpinner();
 };
 
 export default renderTasks;

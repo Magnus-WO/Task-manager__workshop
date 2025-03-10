@@ -1,6 +1,7 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import appState from "./appState";
 import { database } from "./firebaseConfig";
+import { hideSpinner, showSpinner } from "./spinner";
 
 const formModal = document.querySelector(".form-modal");
 const titleInput = document.querySelector(".form__title-input");
@@ -29,6 +30,7 @@ const populateEditForm = async (id) => {
 };
 
 const editTask = async (id) => {
+  showSpinner();
   try {
     const editedTask = {
       title: titleInput.value,
@@ -45,6 +47,8 @@ const editTask = async (id) => {
     console.log("task updated successfully");
   } catch (error) {
     console.log(error, "error editing the task");
+  } finally {
+    hideSpinner();
   }
 };
 

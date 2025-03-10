@@ -1,4 +1,5 @@
 import deleteTask from "./deleteTasks";
+import { hideSpinner, showSpinner } from "./spinner";
 import validateForm, { fieldsToValidate } from "./validation";
 
 const deleteModal = document.querySelector(".delete-modal");
@@ -42,8 +43,10 @@ const openDeleteModal = (id, taskTitle) => {
   deleteModalText.textContent = `Are you sure you want to delete ${taskTitle}?`;
 
   const confirmDeleteHandler = async () => {
+    showSpinner();
     await deleteTask(id);
     deleteModal.classList.remove("delete-modal--display");
+    hideSpinner();
   };
 
   if (previousConfirmDeleteHandler) {

@@ -1,8 +1,10 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { database } from "./firebaseConfig";
 import renderTasks from "./renderTasks";
+import { hideSpinner, showSpinner } from "./spinner";
 
 const toggleCompletion = async (id, tableRow) => {
+  showSpinner();
   try {
     const taskToComplete = doc(database, "tasks", id);
     const taskSnapshot = await getDoc(taskToComplete);
@@ -17,6 +19,8 @@ const toggleCompletion = async (id, tableRow) => {
     }
   } catch (error) {
     console.log(error, "error updating task completion");
+  } finally {
+    hideSpinner();
   }
 };
 
