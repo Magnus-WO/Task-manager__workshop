@@ -1,4 +1,5 @@
 import deleteTask from "./deleteTasks";
+import validateForm, { fieldsToValidate } from "./validation";
 
 const deleteModal = document.querySelector(".delete-modal");
 const deleteModalText = document.querySelector(".delete-modal__text");
@@ -16,12 +17,21 @@ const openModal = (formModal, openModalButton) => {
     e.preventDefault();
     formModal.classList.add("form-modal--display");
   });
+  validateForm();
 };
 
-const closeModal = (formModal, closeModalButton) => {
+const closeModal = (formModal, closeModalButton, form, submitButton) => {
   closeModalButton.addEventListener("click", (e) => {
     e.preventDefault();
+    form.reset();
+    submitButton.textContent = "Add task";
     formModal.classList.remove("form-modal--display");
+    fieldsToValidate.forEach((field) => {
+      const errorParagraph = document.querySelector(`.${field.errorClass}`);
+
+      errorParagraph.style.display = "none";
+      errorParagraph.textContent = "";
+    });
   });
 };
 

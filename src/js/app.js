@@ -5,6 +5,7 @@ import filterTasksByMonth from "./filterTasks.js";
 import app, { database } from "./firebaseConfig.js";
 import { openModal, closeModal, closeDeleteModal } from "./modal.js";
 import renderTasks from "./renderTasks.js";
+import validateForm from "./validation.js";
 
 //Selecting elements from html
 const formModal = document.querySelector(".form-modal");
@@ -28,13 +29,24 @@ const formSubmissionFeedback = document.querySelector(
 // Adding eventlisteners
 document.addEventListener("DOMContentLoaded", () => {
   openModal(formModal, openModalButton);
-  closeModal(formModal, closeModalButton);
+  closeModal(formModal, closeModalButton, form, submitButton);
   renderTasks();
   closeDeleteModal();
 });
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+  formSubmissionFeedback.classList.remove("form--invalid-input", "form--valid");
+
+  if (!validateForm()) {
+    formSubmissionFeedback.classList.add("form--invalid-input");
+    formSubmissionFeedback.textContent =
+      "Please fill in the form before submitting it";
+    setTimeout(() => {
+      formSubmissionFeedback.textContent = "";
+    }, 3000);
+    return;
+  }
   if (!appState.editState) {
     addTasks(
       titleInput.value,
@@ -49,9 +61,18 @@ form.addEventListener("submit", (e) => {
   }
 
   renderTasks();
+  form.reset();
+  formSubmissionFeedback.classList.remove("form--invalid-input");
+  formSubmissionFeedback.classList.add("form--valid");
+  formSubmissionFeedback.textContent = "Task added";
+  setTimeout(() => {
+    formSubmissionFeedback.textContent = "";
+  }, 3000);
 });
 
 filterSelect.addEventListener("change", (e) => {
   const selectedValue = e.target.value;
   filterTasksByMonth(selectedValue);
 });
+
+console.log(validateForm());
