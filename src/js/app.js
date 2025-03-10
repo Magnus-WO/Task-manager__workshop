@@ -1,4 +1,6 @@
 import addTasks from "./addTasks.js";
+import appState from "./appState.js";
+import { editTask } from "./editTasks.js";
 import app, { database } from "./firebaseConfig.js";
 import { openModal, closeModal, closeDeleteModal } from "./modal.js";
 import renderTasks from "./renderTasks.js";
@@ -32,12 +34,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  addTasks(
-    titleInput.value,
-    dateInput.value,
-    timeInput.value,
-    categorySelect.value,
-    prioritySelect.value
-  );
+  if (!appState.editState) {
+    addTasks(
+      titleInput.value,
+      dateInput.value,
+      timeInput.value,
+      categorySelect.value,
+      prioritySelect.value
+    );
+  } else {
+    editTask(appState);
+    appState.editState = null;
+  }
+
   renderTasks();
 });
