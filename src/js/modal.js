@@ -18,7 +18,7 @@ const openModal = (formModal, openModalButton) => {
     e.preventDefault();
     formModal.classList.add("form-modal--display");
   });
-  validateForm();
+  // validateForm();
 };
 
 const closeModal = (formModal, closeModalButton, form, submitButton) => {
